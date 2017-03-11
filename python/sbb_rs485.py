@@ -20,8 +20,10 @@ class PanelControl:
     CMD_READ_POS    = b'\xD0'
     CMD_READ_SERIAL = b'\xDF'
 
+
     def __init__(self, port="/dev/ttyUSB0"):
         self.port = port
+
 
     def connect(self):
         try:
@@ -33,6 +35,7 @@ class PanelControl:
             print("ERROR: Opening serial port failed")
             self.serial = False
             return
+
 
     def pack_msg(self, cmd, addr, value=False):
         msg =  b"\xFF"
@@ -50,12 +53,38 @@ class PanelControl:
         self.serial.write(msg)
 
 
+    def send_and_read(self, msg, ret_len):
+        self.send_msg(msg)
+        data = self.serial.read(ret_len)
+        return data
+
+
+    def get_serial_number(self, addr):
+        msg = self.pack_msg(
+            self.CMD_READ_SERIAL,
+            addr
+        )
+        return self.send_and_read(msg, 4)
+
+
+    def get_position(self, addr):
+        msg = self.pack_msg(
+            self.CMD_READ_POS,
+            addr
+        )
+        pos_raw = self.send_and_read(msg, 1)
+        pos = struct.unpack("=B", pos_raw)
+        return pos[0]
+
+
 
 class PanelClockControl(PanelControl):
+
     def __init__(self, port="/dev/ttyUSB0", addr_hour=82, addr_min=29):
         super().__init__(port)
         self.addr_hour = addr_hour
         self.addr_min = addr_min
+
 
     def calc_min_pos(self, pos):
         if pos<31:
@@ -63,6 +92,30 @@ class PanelClockControl(PanelControl):
         else:
             pos=pos-31
         return pos
+
+
+    def calc_min_pos_rev(self, pos):
+        if pos>30:
+            ret = pos-30
+        else:
+            ret = pos+31
+        return ret
+
+
+    def get_minutes(self):
+        pos_raw = self.get_position(self.addr_min)
+        return self.calc_min_pos_rev(pos_raw)
+
+
+    def get_hours(self):
+        return self.get_position(self.addr_hour)
+
+
+    def get_time(self):
+        hh = self.get_hours()
+        mm = self.get_minutes()
+        return hh,mm
+
 
     def zero_minute(self):
         self.send_msg(
@@ -72,6 +125,7 @@ class PanelClockControl(PanelControl):
             )
         )
 
+
     def zero_hour(self):
         self.send_msg(
             self.pack_msg(
@@ -79,6 +133,7 @@ class PanelClockControl(PanelControl):
                 self.addr_hour
             )
         )
+
 
     def goto_min(self, minutes):
         if minutes>60:
@@ -92,6 +147,7 @@ class PanelClockControl(PanelControl):
         )
         self.send_msg( msg )
 
+
     def goto_hour(self, hour):
         self.send_msg(
             self.pack_msg(
@@ -101,10 +157,12 @@ class PanelClockControl(PanelControl):
             )
         )
 
+
     def goto_current_time(self):
         now = datetime.datetime.now()
         self.goto_hour(now.hour)
         self.goto_min(now.minute)
+
 
     def goto_time(self, hour, minute):
         self.goto_hour(hour)
