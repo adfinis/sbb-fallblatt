@@ -38,7 +38,7 @@ Commands are in HEX
 
 
 
-### Set Position
+### `DISP` Set Position
 `FF C0 <ADDR> <POS>`<br>
 
 pos is position in bytes
@@ -47,7 +47,7 @@ pos is position in bytes
 Address: 29, Position: 20<br>
 `FF CO 1D 14 `
 
-### Get position
+### `RDB` Get position
 `FF DO <ADDR>`
 
 The module answer 1 bit with position as bytes
@@ -58,7 +58,7 @@ Address: 29 , Module Position: 30<br>
 Response: <br>
 `1E`
 
-### Get device Type
+### `TYPE` Get device Type
 `FF DD <ADDR>`
 
 The module answer 1 bit with type
@@ -77,7 +77,7 @@ Response: <br>
 `01`
 
 
-### Get serial number
+### `SNBR` Get serial number
 `FF DF <ADDR>`<br>
 The module answers with 4 bytes containing the serial number
 
@@ -88,13 +88,13 @@ Response: <br>
 `01 88 3f 00`
 
 
-### Get firmware version
+### `VER` Get firmware version
 `FF D4 <ADDR>`
 
 The module answers with 2 bytes containing the version number
 
 
-### Calibrate the device
+### `CALB` Calibrate the device
 `FF CC <ADDR>`
 
 The calibration sets how many pulses are required for moving to next blade and set blade number
