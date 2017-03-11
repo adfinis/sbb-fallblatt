@@ -39,6 +39,7 @@ Commands are in HEX
 
 ### Set Position
 `FF C0 <ADDR> <POS>`<br>
+
 pos is position in bytes
 
 #### Example
@@ -46,7 +47,8 @@ Address: 29, Position: 20<br>
 `FF CO 1D 14 `
 
 ### Get position
-`FF DO ADDR`<br>
+`FF DO <ADDR>`
+
 The module answer 1 bit with position as bytes
 
 #### Example
@@ -64,3 +66,26 @@ Address: 29 , Module Serial number: 43516<br>
 `FF DF 1D`<br>
 Response: <br>
 `01 88 3f 00`
+
+
+### Get firmware version
+`FF D4 <ADDR>`
+
+The module answers with 2 bytes containing the version number
+
+
+### Calibrate the device
+`FF CC <ADDR>`
+
+The calibration sets how many pulses are required for moving to next blade and set blade number
+
+#### Procedure
+
+* Send calibrate command
+  * `FF CC <ADDR>`
+* Send `STEP` until blade change
+  * `FF C6 <ADDR>`
+* Now send `PULSE` until next blade falls
+  * `FF C7 <ADDR>`
+* Now send `WIN` with the blade number to set code to current blade
+  * `FF CB <ADDR> <POS>`
