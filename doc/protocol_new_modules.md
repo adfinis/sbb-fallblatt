@@ -88,6 +88,32 @@ Response: <br>
 `01 88 3f 00`
 
 
+### `ZERO` Move motor to null position
+`FF C6 <ADDR>`
+
+Note: on hour modules, zero is "0." and on minute modules "31"
+
+### Example
+Address: 29
+`FF C6 1D`<br>
+
+
+### `STEP` Move motor one blade
+`FF C6 <ADDR>`
+
+If not moving correctly, number of `PULSE` for a step can be changed in calibration.
+
+### Example
+Address: 29
+`FF C6 1D`<br>
+
+
+### `PULSE` Move motor one pulse
+`FF C6 <ADDR>`<br>
+
+A few pulses are required to complete a `STEP`.
+
+
 ### `VER` Get firmware version
 `FF D4 <ADDR>`
 
@@ -97,7 +123,7 @@ The module answers with 2 bytes containing the version number
 ### `CALB` Calibrate the device
 `FF CC <ADDR>`
 
-The calibration sets how many pulses are required for moving to next blade and set blade number
+The calibration sets how many pulses are required for moving to next blade and set blade number. Use with caution.
 
 #### Procedure
 
