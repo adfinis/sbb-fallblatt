@@ -113,6 +113,10 @@ Address: 29
 
 A few pulses are required to complete a `STEP`.
 
+### Example
+Address: 29
+`FF C7 1D`<br>
+
 
 ### `VER` Get firmware version
 `FF D4 <ADDR>`
