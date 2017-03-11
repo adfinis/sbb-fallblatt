@@ -1,0 +1,56 @@
+Ansteuerung
+
+* die Baudrate ist 19200bd
+* Modulposition einstellen geht so: BREAK <FF> <C0> <ADDR> <POS1> [<POS2>...]
+* BREAK bedeutet, das RS485 für einige Zeit aktiv zu halten. Alle Betriebssysteme haben
+für serielle Schnittstellen eine Möglichkeit, einen Break zu senden, viele Terminal-Programme auch.
+* FF ist ein fixes Startbyte
+* C0 ist das Kommando
+* ADDR ist die Adresse des Mod<uls (die offenbar üblicherweise mit Bleistift auf dem Modul angeschrieben ist),
+0..255. Man kann auch einfach durchprobieren.
+* POS1 ist die Position, man einstellen will, von 0..Anzahl Blätter im Modul
+* POS2,3,4 ist optional, und das sind Positionen für die Module mit darauffolgenden Adressen
+* Modulposition auslesen: BREAK <FF> <D0> <ADDR>
+* das Modul sendet 1 byte mit der aktuellen Position
+* Seriennummer des Moduls auslesen: BREAK <FF> <DF> <ADDR>
+* das Modul sendet 4 bytes Seriennummer
+
+
+Etwas mehr Details + Kalibration:
+
+
+Die vollständige Kommando-Tabelle des Moduls ist:
+
+Kommando    Schreiben  Lesen
+----------------------------
+DISP/RDB    C0         D0
+STAT        C1         D1
+RESET/VER   C4         D4
+ZERO        C5
+STEP        C6
+PULSE       C7
+TEST        C8
+CTRL        C9         D9
+NULL/POS    CA         DA
+WIN         CB         DB
+CALB        CC         DC
+TYPE        CD         DD
+ADDR        CE         DE
+SNBR        CF         DF
+
+
+Da sind die bekannten C0/D0 und DF darunter, aber zum Testen ist STEP und PULSE interessant.
+
+Mit ADDR kann man die Moduladresse umprogrammieren (also Vorsicht damit...)
+
+Mit einer Reihe von STEPs sollte man den Motor schrittweise vorwärts drehen können.
+
+Es gibt eine Kalibration, mit dem man den genauen Zusammenhang zwischen Motorposition und dem Code, den man dann im Betrieb mit dem C0-Kommando verwendet, festlegen kann.
+
+Dazu dient das WIN-Kommando, in der Form <break> FF CB aa pp, wobei aa=Moduladresse wie bei allen anderen Kommandos, und pp=gewünschte Code-Position für das aktuell angezeigte Blatt.
+
+Der Kalibrationsvorgang läuft etwa so ab:
+
+* solange STEP senden (<break> FF C6 aa) bis ein Blatt fällt
+* solange PULSE senden (<break> FF C7 aa) bis das nächste Blatt fällt
+* jetzt WIN (<break> FF CB aa pp) mit pp=Code-Position zwischen 0 und Anzahl Blättern senden.
