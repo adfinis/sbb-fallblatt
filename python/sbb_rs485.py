@@ -35,11 +35,11 @@ class PanelControl:
             return
 
     def pack_msg(self, cmd, addr, value=False):
-        msg = b"\xFF"
-        msg+=cmd
-        msg+=struct.pack("=B", addr)
-        if value:
-            msg+=struct.pack("=B", value)
+        msg =  b"\xFF"
+        msg += cmd
+        msg += struct.pack("=B", addr)
+        if value is not False:
+            msg += struct.pack("=B", value)
         return msg
 
 
@@ -65,23 +65,41 @@ class PanelClockControl(PanelControl):
         return pos
 
     def zero_minute(self):
-        msg = self.pack_msg( self.CMD_ZERO, self.addr_min )
-        self.send_msg( msg )
+        self.send_msg(
+            self.pack_msg(
+                self.CMD_ZERO,
+                self.addr_min
+            )
+        )
 
     def zero_hour(self):
-        msg = self.pack_msg( self.CMD_ZERO, self.addr_hour )
-        self.send_msg( msg )
+        self.send_msg(
+            self.pack_msg(
+                self.CMD_ZERO,
+                self.addr_hour
+            )
+        )
 
     def goto_min(self, minutes):
         if minutes>60:
             return
-        val = self.calc_min_pos(minutes)
-        msg = self.pack_msg(self.CMD_GOTO, self.addr_min, val)
+        msg = self.pack_msg(
+            self.CMD_GOTO,
+            self.addr_min,
+            self.calc_min_pos(
+                minutes
+            )
+        )
         self.send_msg( msg )
 
     def goto_hour(self, hour):
-        msg = self.pack_msg(self.CMD_GOTO, self.addr_hour, hour)
-        self.send_msg( msg )
+        self.send_msg(
+            self.pack_msg(
+                self.CMD_GOTO,
+                self.addr_hour,
+                hour
+            )
+        )
 
     def goto_current_time(self):
         now = datetime.datetime.now()
