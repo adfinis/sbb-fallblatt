@@ -12,7 +12,7 @@ def main():
     clock = sbb_rs485.PanelClockControl()
     clock.connect()
     while True:
-        clock.goto_current_time()
+        clock.set_time_now()
         ts = datetime.utcnow()
         sleeptime = 60 - (ts.second + ts.microsecond/1000000.0)
         time.sleep(sleeptime)

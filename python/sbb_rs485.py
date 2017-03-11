@@ -120,8 +120,8 @@ class PanelClockControl( PanelControl ):
 
 
     def get_time( self ):
-        hour   = self.get_hours()
-        minute = self.get_minutes()
+        hour   = self.get_hour()
+        minute = self.get_minute()
         return hour,minute
 
 
@@ -182,7 +182,11 @@ class PanelClockControl( PanelControl ):
     def set_time_now( self ):
         now = datetime.datetime.now()
         msg = [
-            now.hour,
-            now.minute
+            self.build_set_hour_msg(
+                now.hour
+            ),
+            self.build_set_minute_msg(
+                now.minute
+            )
         ]
         self.send_multiple( msg )
