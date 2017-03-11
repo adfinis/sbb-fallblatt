@@ -22,7 +22,7 @@ Commands are in HEX
 | Command   | Write    | Read     | Description   |
 |-----------|----------|----------|---------------|
 | DISP/RDB  |   `C0`   |   `D0`   | Set/Get Position |
-| STAT      |   `C1`   |   `D1`   | |
+| STAT      |   `C1`   |   `D1`   | Read: Get status |
 | RESET/VER |   `C4`   |   `D4`   | Read: Get firmware version |
 | ZERO      |   `C5`   |          | Move to zero point |
 | STEP      |   `C6`   |          | Move motor a step (1 blade) forward |
@@ -35,6 +35,7 @@ Commands are in HEX
 | TYPE      |   `CD`   |   `DD`   | Set/get type |
 | ADDR      |   `CE`   |   `DE`   | Set/get address |
 | SNBR      |   `CF`   |   `DF`   | Set/get serial number |
+
 
 
 ### Set Position
@@ -56,6 +57,25 @@ Address: 29 , Module Position: 30<br>
 `FF DO 1D`<br>
 Response: <br>
 `1E`
+
+### Get device Type
+`FF DD <ADDR>`
+
+The module answer 1 bit with type
+
+#### Types
+
+| Int | Hex | Type   |
+|-----|-----|--------|
+| 1   | 01  | Hour   |
+| 2   | 02  | Minute |
+
+#### Example
+Address: 29 , Module Type: Hour<br>
+`FF DD 1D`<br>
+Response: <br>
+`01`
+
 
 ### Get serial number
 `FF DF <ADDR>`<br>
