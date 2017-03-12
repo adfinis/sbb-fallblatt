@@ -12,7 +12,7 @@ def main():
     clock = sbb_rs485.PanelClockControl(
         addr_hour = SBB_MODULE_ADDR_HOUR,
         addr_min  = SBB_MODULE_ADDR_MIN
-        )
+    )
     clock.connect()
     while True:
         clock.set_time_now()

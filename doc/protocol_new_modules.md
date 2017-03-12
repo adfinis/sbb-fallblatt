@@ -1,4 +1,4 @@
-# Protocol annax split flap display
+# Protocol new module
 
 ## Gereral
 
@@ -114,8 +114,8 @@ Address: 29
 A few pulses are required to complete a `STEP`.
 
 ### Example
-Address: 29
-`FF C7 1D`<br>
+Address: 29<br>
+`FF C7 1D`
 
 
 ### `VER` Get firmware version
