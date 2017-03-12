@@ -2,9 +2,9 @@
 
 ## General
 
-- Protocol: RS485
-- Supply Voltage: 27-30V DC
-
+* Protocol: RS485
+* Supply Voltage: 27-30V DC
+  * Communication works fine with ~24V but the blades will not move with such low voltages
 
 ## Pinout
 
@@ -49,5 +49,6 @@ Back:
 
 * Voltage Regulator LM78L05
   * [Datasheet](http://www.ti.com/lit/ds/symlink/lm78l05.pdf)
+
 
 * Magnetic rotation sensor (Murata?) 05 s81 (BS05*s81*?)
