@@ -10,5 +10,5 @@
 |----------|----------|------------------------|
 | Data +   | Tx +     | + data to controller   |
 | Data -   | Tx -     | - data to controller   |
-| Data -   | Tx -     | - data from controller |
-| Data -   | Tx -     | - data from controller |
+| RB +     | Rx +     | + data from controller |
+| RB -     | Rx -     | - data from controller |
