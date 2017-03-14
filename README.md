@@ -8,16 +8,22 @@ Most documentation in this repository is taken from old original documens or rev
 
 ## Documentation
 
-There are 2 types of SBB modules, in this repo called old and new ones. The old ones do not have an integrated RS485 controller while the new ones do.
+There are 2 types of single modules, in this repo called old and new ones. The old ones do not have an integrated RS485 controller while the new ones do.
 
+For complete units there only seems to exist a "Omega controller" which seems to to talk to old modules only.
 
 ### New modules
 
-- [Electrical Details](./doc/electrical_new_module.md)
-- [Communication Protocol](./doc/protocol_new_modules.md)
+- [Electrical details](./doc/electrical_new_module.md)
+- [Communication protocol](./doc/protocol_new_modules.md)
 - [Char<->Blade mapping](./doc/char_mapping.md)
 
 
 ### Old modules
 
 - TBD
+
+### Omega controller
+
+- [Electrical details](./doc/electrical_omega_controller.md)
+- [Communication protocol](./doc/protocol_omega_controller.md)
