@@ -53,12 +53,15 @@ class PanelControl:
         self.serial.write( msg )
 
 
-    def send_multiple( self, msgs ):
+    def send_multiple( self, msgs, sleep_between=True):
         if not self.serial:
             return
+
         for msg in msgs:
-            self.serial.send_break( 0.01 )
+            self.serial.send_break( 0.05 )
             self.serial.write( msg )
+            if sleep_between:
+                time.sleep(0.003)
 
 
     def send_and_read( self, msg, ret_len ):
