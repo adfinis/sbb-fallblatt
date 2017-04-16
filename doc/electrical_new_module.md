@@ -5,6 +5,9 @@
 * Protocol: RS485
 * Supply Voltage: 27-30V DC
   * Communication works fine with ~24V but the blades will not move with such low voltages
+* Power consumption @30V:
+  * Standby: 11mA
+  * Flapping: 110mA
 
 ## Pinout
 
