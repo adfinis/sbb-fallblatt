@@ -38,7 +38,8 @@ def main():
     cc.serial.timeout = 2
     exit = False
     while not exit:
-        addr = input("Module address: ")
+        addr = input("Module address: {0}".format(bcolors.BOLD))
+        print(bcolors.ENDC, end="")
         addr_int = int(addr)
         cc.set_addr_test(addr_int)
         serial = cc.get_serial_number(addr_int)
