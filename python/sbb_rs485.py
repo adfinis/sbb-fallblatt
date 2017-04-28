@@ -57,11 +57,12 @@ class PanelControl:
         if not self.serial:
             return
 
+
         for msg in msgs:
             self.serial.send_break( 0.05 )
             self.serial.write( msg )
-            if sleep_between:
-                time.sleep(0.003)
+            #if sleep_between:
+                #time.sleep(0.003)
 
 
     def send_and_read( self, msg, ret_len ):
@@ -83,9 +84,12 @@ class PanelControl:
             self.CMD_READ_POS,
             addr
         )
-        pos_raw = self.send_and_read( msg, 1 )
-        pos = struct.unpack( "=B", pos_raw )
-        return pos[0]
+        try:
+            pos_raw = self.send_and_read( msg, 1 )
+            pos = struct.unpack( "=B", pos_raw )
+            return pos[0]
+        except struct.error:
+            return -1
 
 
 
@@ -163,6 +167,15 @@ class PanelClockControl( PanelControl ):
             )
         )
 
+    def set_pos_test( self, pos ):
+        self.send_msg(
+            self.build_set_hour_msg(
+                pos
+            )
+        )
+    def set_addr_test( self, addr ):
+        self.addr_hour = addr
+
 
     def set_hour( self, hour ):
         if hour>23:
@@ -179,7 +192,7 @@ class PanelClockControl( PanelControl ):
             self.build_set_hour_msg( hour ),
             self.build_set_minute_msg( minute )
         ]
-        self.send_multiple( msg )
+        self.send_multiple( msg, sleep_between=True )
 
 
     def set_time_now( self ):
