@@ -30,7 +30,9 @@ def log(level, message):
     print("{0} {1}".format(pf, message))
 
 
-
+def fmt_ser(ser):
+    ss=str(hex(ser[0]))[2:].upper() + str(hex(ser[1]))[2:].upper() + str(hex(ser[2]))[2:].upper() + str(hex(ser[3]))[2:].upper()
+    return ss
 
 def main():
     cc = sbb_rs485.PanelClockControl()
@@ -44,7 +46,7 @@ def main():
         cc.set_addr_test(addr_int)
         serial = cc.get_serial_number(addr_int)
         if len(serial)==4:
-            log(LOG_OK, "reading serial")
+            log(LOG_OK, "reading serial ({0})".format(fmt_ser(serial)))
         else:
             log(LOG_FAIL, "reading serial")
 
