@@ -43,38 +43,38 @@ def main():
         cc.set_addr_test(addr_int)
         serial = cc.get_serial_number(addr_int)
         if len(serial)==4:
-            log(LOG_OK, "reading serial passed")
+            log(LOG_OK, "reading serial")
         else:
-            log(LOG_FAIL, "reading serial failed")
+            log(LOG_FAIL, "reading serial")
 
         cc.set_pos_test(POS_E)
         time.sleep(2)
         pos = cc.get_position(addr_int)
         if pos == POS_E:
-            log(LOG_OK, "position E passed")
+            log(LOG_OK, "position E")
         else:
-            log(LOG_FAIL, "position E failed")
+            log(LOG_FAIL, "position E")
 
         cc.set_pos_test(POS_Z)
         time.sleep(2)
         pos = cc.get_position(addr_int)
         if pos == POS_Z:
-            log(LOG_OK, "position Z passed")
+            log(LOG_OK, "position Z")
         else:
-            log(LOG_FAIL, "position Z failed")
+            log(LOG_FAIL, "position Z")
 
         cc.set_pos_test(POS_5)
         time.sleep(2)
         pos = cc.get_position(addr_int)
         if pos == POS_5:
-            log(LOG_OK, "position 5 passed")
+            log(LOG_OK, "position 5")
         else:
-            log(LOG_FAIL, "position 5 failed")
+            log(LOG_FAIL, "position 5")
 
         cc.set_pos_test(0)
 
         print("")
-        inp = input("test another module (Y/n): ")
+        inp = input("Test another module (Y/n): ")
         if inp.lower()=="n":
             exit = True
         else:
