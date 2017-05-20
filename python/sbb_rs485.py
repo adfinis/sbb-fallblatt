@@ -19,6 +19,7 @@ class PanelControl:
     CMD_PULSE       = b'\xC7'
     CMD_READ_POS    = b'\xD0'
     CMD_READ_SERIAL = b'\xDF'
+    CMD_CHANGE_ADDR = b'\xCE'
 
 
     def __init__( self, port="/dev/ttyUSB0" ):
@@ -56,7 +57,6 @@ class PanelControl:
     def send_multiple( self, msgs, sleep_between=True):
         if not self.serial:
             return
-
 
         for msg in msgs:
             self.serial.send_break( 0.05 )

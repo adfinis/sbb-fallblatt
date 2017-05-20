@@ -93,7 +93,7 @@ Response: <br>
 
 Note: on hour modules, zero is "0." and on minute modules "31"
 
-### Example
+#### Example
 Address: 29
 `FF C6 1D`<br>
 
@@ -103,7 +103,7 @@ Address: 29
 
 If not moving correctly, number of `PULSE` for a step can be changed in calibration.
 
-### Example
+#### Example
 Address: 29
 `FF C6 1D`<br>
 
@@ -113,7 +113,7 @@ Address: 29
 
 A few pulses are required to complete a `STEP`.
 
-### Example
+#### Example
 Address: 29<br>
 `FF C7 1D`
 
@@ -139,3 +139,14 @@ The calibration sets how many pulses are required for moving to next blade and s
   * `FF C7 <ADDR>`
 * Now send `WIN` with the blade number to set code to current blade
   * `FF CB <ADDR> <POS>`
+
+
+### `ADDR` Change address of module
+`FF CE <OLD_ADDR> <NEW_ADDR>`
+
+Changes address of the module. There is no response
+
+#### Example
+Old Address: 29
+New Address: 30
+`FF CE 1D 1E`<br>
