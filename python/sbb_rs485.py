@@ -28,7 +28,7 @@ class PanelControl:
     def connect( self ):
         try:
             self.serial = serial.Serial(
-                port='/dev/ttyUSB0',
+                port=self.port,
                 baudrate=19200
             )
         except:
