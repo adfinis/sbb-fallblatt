@@ -13,17 +13,18 @@ from pprint import pprint
 
 class PanelControl:
 
-    CMD_GOTO        = b'\xC0'
-    CMD_ZERO        = b'\xC5'
-    CMD_STEP        = b'\xC6'
-    CMD_PULSE       = b'\xC7'
-    CMD_READ_POS    = b'\xD0'
-    CMD_READ_SERIAL = b'\xDF'
-    CMD_CHANGE_ADDR = b'\xCE'
+    CMD_GOTO         = b'\xC0'
+    CMD_ZERO         = b'\xC5'
+    CMD_STEP         = b'\xC6'
+    CMD_PULSE        = b'\xC7'
+    CMD_READ_POS     = b'\xD0'
+    CMD_READ_SERIAL  = b'\xDF'
+    CMD_CHANGE_ADDR  = b'\xCE'
 
 
     def __init__( self, port="/dev/ttyUSB0" ):
         self.port = port
+        self.break_time = 0.05
 
 
     def connect( self ):
@@ -50,19 +51,19 @@ class PanelControl:
     def send_msg( self, msg ):
         if not self.serial:
             return
-        self.serial.send_break( 0.05 )
+        self.serial.send_break( self.break_time )
         self.serial.write( msg )
 
 
-    def send_multiple( self, msgs, sleep_between=True):
+    def send_multiple( self, msgs, sleep_between=False):
         if not self.serial:
             return
 
         for msg in msgs:
-            self.serial.send_break( 0.05 )
+            self.serial.send_break( self.break_time )
             self.serial.write( msg )
-            #if sleep_between:
-                #time.sleep(0.003)
+            if sleep_between:
+                time.sleep(0.003)
 
 
     def send_and_read( self, msg, ret_len ):
@@ -90,6 +91,82 @@ class PanelControl:
             return pos[0]
         except struct.error:
             return -1
+
+
+    def pack_msg_goto( self, addr, pos ):
+        return self.pack_msg(
+            self.CMD_GOTO,
+            addr,
+            pos
+        )
+
+    def fill_list( self, lst, n, fill):
+        return lst + [fill] * (n - len(lst))
+
+
+
+
+
+class PanelAlphanumControl( PanelControl ):
+
+    ALPHANUM_MAPPING = "abcdefghijklmnopqrstuvwxyz/-1234567890. "
+    POS_BLANK        = 39
+
+    def __init__(self, addresses, port="/dev/ttyUSB0" ):
+        super().__init__(port)
+        self.break_time=0.001
+        self.addrs = addresses
+        self.length = len(addresses)
+
+
+    def str_to_pos(self, string):
+        ret = []
+        for c in string:
+            pos = self.ALPHANUM_MAPPING.find(c.lower())
+            if pos > -1:
+                ret.append(pos)
+        return ret
+
+
+    def pos_to_str(self, pos):
+        ret = ""
+        for p in pos:
+            ret += self.ALPHANUM_MAPPING[p]
+        return ret
+
+
+    def get_text(self):
+        pos = []
+        for addr in self.addrs:
+            pos.append(
+                self.get_position( addr )
+            )
+        return self.pos_to_str(pos)
+
+
+    def set_text(self, text, fill=True):
+        text = text[:self.length]
+        pos  = self.str_to_pos(text)
+        if fill:
+            pos = self.fill_list(
+                pos,
+                self.length,
+                self.POS_BLANK
+            )
+        msg  = []
+        apos = 0
+        for char in pos:
+            msg.append(
+                self.pack_msg_goto(
+                    self.addrs[apos],
+                    char
+                )
+            )
+            apos+=1
+
+        self.send_multiple(msg)
+
+
 
 
 
