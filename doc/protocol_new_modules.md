@@ -65,10 +65,10 @@ The module answer 1 bit with type
 
 #### Types
 
-| Int | Hex | Type   |
-|-----|-----|--------|
-| 1   | 01  | Hour   |
-| 2   | 02  | Minute |
+| Int | Hex | Type                 | #Blades |
+|-----|-----|----------------------|---------|
+| 1   | 01  | Hour/Alphanummeric   | 40      |
+| 2   | 02  | Minute               | 62      |
 
 #### Example
 Address: 29 , Module Type: Hour<br>
