@@ -156,6 +156,7 @@ class PanelAlphanumControl( PanelControl ):
             pos.append(
                 self.get_position( addr )
             )
+            self.serial.flushInput()
         return self.pos_to_str(pos)
 
 
