@@ -48,19 +48,32 @@ class PanelControl:
         return msg
 
 
+    def pack_msg_goto( self, addr, pos ):
+        return self.pack_msg(
+            self.CMD_GOTO,
+            addr,
+            pos
+        )
+
+
+    def set_break(self):
+        self.serial.break_condition = True
+        time.sleep(self.break_time)
+        self.serial.break_condition = False
+
+
     def send_msg( self, msg ):
         if not self.serial:
             return
-        self.serial.send_break( self.break_time )
+        self.set_break()
         self.serial.write( msg )
 
 
     def send_multiple( self, msgs, sleep_between=False):
         if not self.serial:
             return
-
         for msg in msgs:
-            self.serial.send_break( self.break_time )
+            self.set_break()
             self.serial.write( msg )
             if sleep_between:
                 time.sleep(0.003)
@@ -93,12 +106,14 @@ class PanelControl:
             return -1
 
 
-    def pack_msg_goto( self, addr, pos ):
-        return self.pack_msg(
-            self.CMD_GOTO,
-            addr,
-            pos
+    def set_position(self, addr, pos):
+        self.send_msg(
+            self.pack_msg_goto(
+                addr,
+                pos
+            )
         )
+
 
     def fill_list( self, lst, n, fill):
         return lst + [fill] * (n - len(lst))
@@ -144,6 +159,30 @@ class PanelAlphanumControl( PanelControl ):
         return self.pos_to_str(pos)
 
 
+    def pos_to_msg(self, pos):
+        msg  = []
+        addr_pos = 0
+        for char in pos:
+            msg.append(
+                self.pack_msg_goto(
+                    self.addrs[addr_pos],
+                    char
+                )
+            )
+            addr_pos+=1
+        return msg
+
+
+    def set_zero(self):
+        pos = self.fill_list(
+            [],
+            self.length,
+            self.POS_BLANK
+        )
+        msg = self.pos_to_msg(pos)
+        self.send_multiple(msg)
+
+
     def set_text(self, text, fill=True):
         text = text[:self.length]
         pos  = self.str_to_pos(text)
@@ -153,17 +192,8 @@ class PanelAlphanumControl( PanelControl ):
                 self.length,
                 self.POS_BLANK
             )
-        msg  = []
-        apos = 0
-        for char in pos:
-            msg.append(
-                self.pack_msg_goto(
-                    self.addrs[apos],
-                    char
-                )
-            )
-            apos+=1
 
+        msg = self.pos_to_msg(pos)
         self.send_multiple(msg)
 
 
@@ -209,24 +239,6 @@ class PanelClockControl( PanelControl ):
         return hour,minute
 
 
-    def build_set_minute_msg( self, minute ):
-        return self.pack_msg(
-            self.CMD_GOTO,
-            self.addr_min,
-            self.calc_min_pos(
-                minute
-            )
-        )
-
-
-    def build_set_hour_msg( self, hour ):
-        return self.pack_msg(
-            self.CMD_GOTO,
-            self.addr_hour,
-            hour
-        )
-
-
     def set_zero( self ):
         msg = [
             self.build_set_hour_msg( 0 ),
@@ -238,48 +250,26 @@ class PanelClockControl( PanelControl ):
     def set_minute( self, minute ):
         if minute>60:
             return
-        self.send_msg(
-            self.build_set_minute_msg(
-                minute
-            )
+        self.set_position(
+            self.addr_min,
+            self.calc_min_pos( minute )
         )
-
-    def set_pos_test( self, pos ):
-        self.send_msg(
-            self.build_set_hour_msg(
-                pos
-            )
-        )
-    def set_addr_test( self, addr ):
-        self.addr_hour = addr
 
 
     def set_hour( self, hour ):
         if hour>23:
             return
-        self.send_msg(
-            self.build_set_hour_msg(
-                hour
-            )
+        self.set_position(
+            self.addr_hour,
+            hour
         )
 
 
     def set_time( self, hour, minute ):
-        msg = [
-            self.build_set_hour_msg( hour ),
-            self.build_set_minute_msg( minute )
-        ]
-        self.send_multiple( msg, sleep_between=True )
+        self.set_hour(hour)
+        self.set_minute(minute)
 
 
     def set_time_now( self ):
         now = datetime.datetime.now()
-        msg = [
-            self.build_set_hour_msg(
-                now.hour
-            ),
-            self.build_set_minute_msg(
-                now.minute
-            )
-        ]
-        self.send_multiple( msg )
+        self.set_time(now.hour, now.minute)

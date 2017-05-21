@@ -5,6 +5,7 @@ import sbb_rs485
 import time
 from datetime import datetime
 
+DELAY_TIME = 4
 
 POS_A = 0
 POS_E = 4
@@ -35,7 +36,7 @@ def fmt_ser(ser):
     return ss
 
 def main():
-    cc = sbb_rs485.PanelClockControl()
+    cc = sbb_rs485.PanelControl()
     cc.connect()
     cc.serial.timeout = 2
     exit = False
@@ -43,38 +44,38 @@ def main():
         addr = input("Module address: {0}".format(bcolors.BOLD))
         print(bcolors.ENDC, end="")
         addr_int = int(addr)
-        cc.set_addr_test(addr_int)
+
         serial = cc.get_serial_number(addr_int)
         if len(serial)==4:
             log(LOG_OK, "reading serial ({0})".format(fmt_ser(serial)))
         else:
             log(LOG_FAIL, "reading serial")
 
-        cc.set_pos_test(POS_E)
-        time.sleep(2)
+        cc.set_position(addr_int, POS_E)
+        time.sleep(DELAY_TIME)
         pos = cc.get_position(addr_int)
         if pos == POS_E:
             log(LOG_OK, "position E")
         else:
             log(LOG_FAIL, "position E")
 
-        cc.set_pos_test(POS_Z)
-        time.sleep(2)
+        cc.set_position(addr_int, POS_Z)
+        time.sleep(DELAY_TIME)
         pos = cc.get_position(addr_int)
         if pos == POS_Z:
             log(LOG_OK, "position Z")
         else:
             log(LOG_FAIL, "position Z")
 
-        cc.set_pos_test(POS_5)
-        time.sleep(2)
+        cc.set_position(addr_int, POS_5)
+        time.sleep(DELAY_TIME)
         pos = cc.get_position(addr_int)
         if pos == POS_5:
             log(LOG_OK, "position 5")
         else:
             log(LOG_FAIL, "position 5")
 
-        cc.set_pos_test(0)
+        cc.set_position(addr_int, 0)
 
         print("")
         inp = input("Test another module (Y/n): ")
