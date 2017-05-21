@@ -51,24 +51,30 @@ def main():
         else:
             log(LOG_FAIL, "reading serial")
 
+        cc.serial.flushInput()
         cc.set_position(addr_int, POS_E)
         time.sleep(DELAY_TIME)
+        cc.serial.flushInput()
         pos = cc.get_position(addr_int)
         if pos == POS_E:
             log(LOG_OK, "position E")
         else:
             log(LOG_FAIL, "position E")
 
+        cc.serial.flushInput()
         cc.set_position(addr_int, POS_Z)
         time.sleep(DELAY_TIME)
+        cc.serial.flushInput()
         pos = cc.get_position(addr_int)
         if pos == POS_Z:
             log(LOG_OK, "position Z")
         else:
             log(LOG_FAIL, "position Z")
 
+        cc.serial.flushInput()
         cc.set_position(addr_int, POS_5)
         time.sleep(DELAY_TIME)
+        cc.serial.flushInput()
         pos = cc.get_position(addr_int)
         if pos == POS_5:
             log(LOG_OK, "position 5")
