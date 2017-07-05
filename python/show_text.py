@@ -42,7 +42,6 @@ def main():
     args = parser.parse_args()
 
     addrs = list(range(args.start,args.end+1))
-    print(addrs)
     cc = sbb_rs485.PanelAlphanumControl(addresses=addrs, port=args.port )
     cc.connect()
     cc.set_text(args.text)
