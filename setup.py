@@ -16,7 +16,7 @@ setup(
     packages=['sbb_fallblatt'],
     long_description=read('README.md'),
     install_requires=[
-      "serial"
+      "pyserial"
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
