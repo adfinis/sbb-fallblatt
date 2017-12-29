@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sbb_rs485
+from . import sbb_rs485
 import sys
 import time
 from datetime import datetime
