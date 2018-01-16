@@ -9,7 +9,7 @@ import serial
 import struct
 import argparse
 import subprocess
-import sbb_rs485
+from . import sbb_rs485
 
 
 def unpack(data):
