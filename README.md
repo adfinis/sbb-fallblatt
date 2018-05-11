@@ -1,5 +1,7 @@
 # SBB split flap displays
 
+[![License](https://img.shields.io/github/license/adfinis-sygroup/sbb-fallblatt.svg?style=flat-square)](LICENSE)
+
 Documentation and code for interfacing with SBB split flap display modules.
 
 ## General
