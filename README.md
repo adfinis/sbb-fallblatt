@@ -6,13 +6,13 @@ Documentation and code for interfacing with SBB split flap display modules.
 
 ## General
 
-Most documentation in this repository is taken from old original documens or reverse engineered. It is far from being complete. If you have any additional informations which you like to share, please contact us or even create an pull request.
+Most documentation in this repository is taken from old original documents or reverse engineered. It is far from being complete. If you have any additional information which you'd like to share, please contact us or even create a pull request.
 
 ## Documentation
 
-There are 2 types of single modules, in this repo called old and new ones. The old ones do not have an integrated RS485 controller while the new ones do.
+There are 2 types of single modules in this repo called old and new ones. The old ones do not have an integrated RS485 controller while the new ones do.
 
-For complete units there only seems to exist a "Omega controller" which seems to to talk to old modules only.
+For complete units there only seems to exist an "Omega controller" which appears to to talk to old modules only.
 
 ### New modules
 
