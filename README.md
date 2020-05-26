@@ -23,7 +23,8 @@ For complete units there only seems to exist an "Omega controller" which appears
 
 ### Old modules
 
-- TBD
+- [Electrical details](./doc_omega_module/electrical_omega_module.md)
+- [Char<->Blade mapping](./doc_omega_module/char_mapping.md)
 
 ### Omega controller
 

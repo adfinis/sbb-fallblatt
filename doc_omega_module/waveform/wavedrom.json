@@ -1,0 +1,16 @@
+{ "signal" : [
+	{ "name": "ADL", "wave": "h..l....h.|....l." },
+	{ "name": "ADC", "wave": "hlh.l..h..|...l.." },
+	{ "name": "Start motor", "wave": "h.....lh..|......" },
+    { "name": "Motor moves", "wave": "l......h..|...l.." },
+    { "name": "Encoder strobe", "wave": "x......010|101x.." },
+  { "name": "D0", "wave": "z...5..z..|.....5" },
+  { "name": "D1", "wave": "z...5..z..|.....5" },
+  { "name": "D2", "wave": "z...5..z..|.....5" },
+  { "name": "D3", "wave": "z...5..z..|.....5" },
+  { "name": "D4", "wave": "z...5..z..|.....5" },
+  { "name": "D5", "wave": "z...5..z..|.....5" }],
+head:{
+   tick:"0",
+ },}
+
