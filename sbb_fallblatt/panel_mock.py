@@ -55,6 +55,8 @@ class MockPanel():
                         msg_type = 'set'
                     if data == b'\xd0':
                         msg_type = 'get'
+                    if data == b'\xdf':
+                        msg_type = 'serial'
 
                 elif msg_type and not addr:
                     addr = data
@@ -69,10 +71,20 @@ class MockPanel():
 
                 if msg_type=='get' and addr:
                     paddr = self.unpack(addr) - self.start_address
-                    os.write(self.serial_int, bytes(self.panel.str_to_pos(self.panel_data[paddr])))
+                    if paddr <= len(self.panel_data):
+                        os.write(self.serial_int,
+                                bytes(self.panel.str_to_pos(self.panel_data[paddr])))
                     msg_start = False
                     msg_type  = False
                     addr      = False
+
+                if msg_type=='serial' and addr:
+                    paddr = self.unpack(addr) - self.start_address
+                    os.write(self.serial_int, b"\x01\x88\x3f\x00")
+                    msg_start = False
+                    msg_type  = False
+                    addr      = False
+
 def parse_args(arguments):
     """Parse the CLI Arguments"""
     parser = argparse.ArgumentParser(description="Mock an sbb panel")
