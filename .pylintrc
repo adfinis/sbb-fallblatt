@@ -1,0 +1,10 @@
+[TYPECHECK]
+
+# List of class names for which member attributes should not be checked (useful
+# for classes with dynamically set attributes). This supports the use of
+# qualified names.
+#
+# Also used to suppress "Class 'FooClass' has no 'bar' member (no-member)"
+# errors for third-party extension modules, as Pylint >= 1.4 stopped to import
+# them.
+ignored-classes = tzinfo

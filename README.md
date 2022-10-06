@@ -30,3 +30,61 @@ For complete units there only seems to exist an "Omega controller" which appears
 
 - [Electrical details](./doc/electrical_omega_controller.md)
 - [Communication protocol](./doc/protocol_omega_controller.md)
+
+## Components
+
+### Panel Simulator
+
+The `panel_mock.py` script can be used to simulate an Alphanumerical Panel width variable width.
+
+Setup:
+
+```python
+>>> from sbb_fallblatt import sbb_rs485, panel_mock
+>>> from multiprocessing import Process
+>>> mock_panel = panel_mock.MockPanel(10, 21)
+>>> mockthread = Process(target=mock_panel.run)
+>>> panel_control = sbb_rs485.PanelAlphanumControl(addresses=list(range(10,21)), port=mock_panel.get_serial_port())
+>>> panel_control.connect()
+>>> mockthread.start()
+>>> panel_control.set_text("test01")
+>>> panel_control.get_text()
+'test01     '
+>>> panel_control.get_serial_number(10)
+b'\x01\x88?\x00'
+>>> mock_panel.stop()
+>>> mockthread.kill()
+>>> mockthread.join()
+
+```
+
+### Clock
+
+```python
+>>> import time
+>>> from datetime import datetime
+>>> from multiprocessing import Process
+>>> from sbb_fallblatt import sbb_rs485, panel_mock
+>>>
+>>> mock_panel = panel_mock.MockPanel(10, 12)
+>>> mockthread = Process(target=mock_panel.run)
+>>> mockthread.start()
+>>>
+>>> clock = sbb_rs485.PanelClockControl(addr_hour=10, addr_min=11, port=mock_panel.get_serial_port())
+>>> clock.connect()
+
+>>> clock.set_time(15, 35) # or use clock.set_time_now()
+>>>
+>>> clock.get_hour()
+15
+>>> clock.get_minute()
+35
+>>> clock.set_time(22, 9)
+>>> clock.get_time()
+(22, 9)
+>>>
+>>> mock_panel.stop()
+>>> mockthread.kill()
+>>> mockthread.join()
+
+```
