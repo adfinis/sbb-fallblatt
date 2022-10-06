@@ -50,6 +50,8 @@ Setup:
 >>> panel_control.set_text("test01")
 >>> panel_control.get_text()
 'test01     '
+>>> panel_control.get_serial_number(10)
+b'\x01\x88?\x00'
 >>> mock_panel.stop()
 >>> mockthread.kill()
 >>> mockthread.join()
