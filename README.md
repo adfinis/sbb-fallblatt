@@ -30,3 +30,28 @@ For complete units there only seems to exist an "Omega controller" which appears
 
 - [Electrical details](./doc/electrical_omega_controller.md)
 - [Communication protocol](./doc/protocol_omega_controller.md)
+
+## Components
+
+### Panel Simulator
+
+The `panel_mock.py` script can be used to simulate an Alphanumerical Panel width variable width.
+
+Setup:
+
+```python
+>>> from sbb_fallblatt import sbb_rs485, panel_mock
+>>> from multiprocessing import Process
+>>> mock_panel = panel_mock.MockPanel(10, 21)
+>>> mockthread = Process(target=mock_panel.run)
+>>> panel_control = sbb_rs485.PanelAlphanumControl(addresses=list(range(10,21)), port=mock_panel.get_serial_port())
+>>> panel_control.connect()
+>>> mockthread.start()
+>>> panel_control.set_text("test01")
+>>> panel_control.get_text()
+'test01     '
+>>> mock_panel.stop()
+>>> mockthread.kill()
+>>> mockthread.join()
+
+```
