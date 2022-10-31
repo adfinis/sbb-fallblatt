@@ -6,6 +6,7 @@ on:
       - develop
       - main
       - gh-pages
+  pull_request:
 
 jobs:
   pytest:
