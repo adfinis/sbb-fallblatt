@@ -1,7 +1,7 @@
 -r requirements.txt
 pytest==7.3.2
 pytest-cov==4.1.0
-pytest-env==0.8.1
+pytest-env==0.8.2
 pytest-mypy==0.10.3
 pytest-pylint==0.19.0
 pytest-random-order==1.1.0
