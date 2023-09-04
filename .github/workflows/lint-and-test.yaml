@@ -13,7 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ '3.x', '3.9' ]
+        python-version:
+          # Test the most recent version Python 3 release
+          - '3.x'
+          # Test older version still in use by some distributions
+          - '3.9'
     name: Test python ${{ matrix.python-version }}
     steps:
       - name: Checkout
