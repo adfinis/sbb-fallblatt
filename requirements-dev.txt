@@ -3,5 +3,5 @@ pytest==7.4.2
 pytest-cov==4.1.0
 pytest-env==1.0.1
 pytest-mypy==0.10.3
-pytest-pylint==0.19.0
+pytest-pylint==0.21.0
 pytest-random-order==1.1.0
