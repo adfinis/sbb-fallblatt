@@ -2,6 +2,6 @@
 pytest==8.3.5
 pytest-cov==6.0.0
 pytest-env==1.1.5
-pytest-mypy==1.0.0
+pytest-mypy==1.0.1
 pytest-pylint==0.21.0
 pytest-random-order==1.1.1
