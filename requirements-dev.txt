@@ -1,6 +1,6 @@
 -r requirements.txt
 pytest==8.4.0
-pytest-cov==6.1.1
+pytest-cov==6.2.1
 pytest-env==1.1.5
 pytest-mypy==1.0.1
 pytest-pylint==0.21.0
