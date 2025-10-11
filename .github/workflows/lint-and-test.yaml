@@ -16,8 +16,9 @@ jobs:
         python-version:
           # Test the most recent version Python 3 release
           - '3.x'
-          # Test older version still in use by some distributions
-          - '3.9'
+          # Oldest version still receiving security updates and/or being used
+          # in some Linux distributions
+          - '3.10'
     name: Test python ${{ matrix.python-version }}
     steps:
       - name: Checkout
