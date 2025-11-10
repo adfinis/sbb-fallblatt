@@ -1,5 +1,5 @@
 -r requirements.txt
-pytest==8.4.2
+pytest==9.0.0
 pytest-cov==7.0.0
 pytest-env==1.2.0
 pytest-mypy==1.0.1
