@@ -15,7 +15,11 @@ jobs:
       matrix:
         python-version:
           # Test the most recent version Python 3 release
-          - '3.x'
+          # TODO: Enable again once pyserial had a new release which supports 3.14
+          #- '3.x'
+          # Temporarily set the highest supported Python version to 3.13, since pyserial currently doesn't work with 3.14
+          # TODO: Remove once once pyserial had a new release which supports 3.14
+          - '3.13'
           # Oldest version still receiving security updates and/or being used
           # in some Linux distributions
           - '3.10'
