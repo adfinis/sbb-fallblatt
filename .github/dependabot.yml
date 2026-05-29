@@ -10,6 +10,8 @@ updates:
       prefix: "feat(deps): "
       prefix-development: "chore(deps): "
     open-pull-requests-limit: 20
+    cooldown:
+      default-days: 7
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -19,3 +21,5 @@ updates:
     commit-message:
       prefix: "chore(ci): "
     open-pull-requests-limit: 10
+    cooldown:
+      default-days: 7
